@@ -1,0 +1,25 @@
+# Use root/example as user/password credentials
+services:
+
+    db:
+        image: mariadb
+        environment:
+            - MYSQL_DATABASE=${DB_DATABASE}
+            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+        restart: always
+        user: "mysql:mysql"
+        volumes:
+            - mariadb:/var/lib/mysql
+        ports:
+            - "${DB_PORT}:${DB_PORT}"
+        networks:
+            - default
+        command: --port=${DB_PORT} --default-authentication-plugin=caching_sha2_password
+        healthcheck:
+            test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+            start_period: 10s
+            interval: 10s
+            timeout: 5s
+            retries: 3
+volumes:
+    mariadb:
