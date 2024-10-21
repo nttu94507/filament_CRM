@@ -10,6 +10,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -24,10 +27,10 @@ class ProbeResource extends Resource
         return $form
             ->schema([
                 //
-                Forms\Components\TextInput::make('probe_id')
+                TextInput::make('probe_id')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('type')
+                Select::make('type')
                     ->options([
                         'P110' => 'P110',
                         'P120' => 'P120',
@@ -57,6 +60,7 @@ class ProbeResource extends Resource
                     ->required(),
 
             ]);
+//            ->columnSpan(2);
     }
 
     public static function table(Table $table): Table
@@ -64,12 +68,14 @@ class ProbeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('probe_id')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('ProbeID'),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('date_of_shipment')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('customer.company_name')
                     ->searchable(),
+
 
                 //
             ])
