@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('conditions', function (Blueprint $table) {
             $table->id();
+            $table->string('message_id');
+            $table->string('conditionJson');
             $table->timestamps();
         });
     }

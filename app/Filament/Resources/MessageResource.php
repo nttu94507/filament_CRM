@@ -15,7 +15,6 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 //use App\Actions\ResetStars;
 use Filament\Tables\Table;
@@ -45,23 +44,18 @@ class MessageResource extends Resource
                                         '4' => 'Logout',
                                     ]),
                                 Forms\Components\Section::make()
-                                    ->columns([
-                                        'sm' => 3,
-                                        'xl' => 6,
-                                        '2xl' => 8,
-                                    ])
                                     ->schema([
                                         TextInput::make('title')
                                             ->columnSpan([
                                                 'sm' => 2,
-                                                'xl' => 3,
-                                                '2xl' => 12,
+                                                'xl' => 5,
+                                                '2xl' => 8,
                                             ]),
                                         Textarea::make('content')
                                             ->columnSpan([
                                                 'sm' => 2,
-                                                'xl' => 3,
-                                                '2xl' => 12,
+                                                'xl' => 5,
+                                                '2xl' => 8,
                                             ]),
                                     ]),
                             ]),
@@ -77,33 +71,31 @@ class MessageResource extends Resource
                                                 'dog' => 'Dog',
                                                 'rabbit' => 'Rabbit',
                                             ])
+                                            ->native(false)
                                             ->inlineLabel(),
                                         Select::make('Conditions')
                                             ->options([
-                                                'cat' => 'Cat',
-                                                'dog' => 'Dog',
-                                                'rabbit' => 'Rabbit',
+                                                '=' => 'Equals',
+                                                '>' => 'Greater',
+                                                '<' => 'Lower',
+                                                '>=' => 'Greater and Equal',
+                                                '<=' => 'Lower and Equal',
                                             ])
+                                            ->native(false)
                                             ->inlineLabel(),
                                         TextInput::make('Condition Value')
                                             ->maxLength(255)
                                             ->inlineLabel(),
                                     ])
-                                    ->defaultItems(0)
-//                                    ->addActionAlignment(Alignment::End)
+                                    ->defaultItems(1)
                                     ->reorderable(false),
                                 Forms\Components\Section::make()
-                                    ->columns([
-                                        'sm' => 3,
-                                        'xl' => 6,
-                                        '2xl' => 12,
-                                    ])
                                     ->schema([
                                         TextInput::make('title')
                                             ->columnSpan([
                                                 'sm' => 2,
                                                 'xl' => 3,
-                                                '2xl' =>12  ,
+                                                '2xl' => 12,
                                             ]),
                                         Textarea::make('content')
                                             ->columnSpan([
@@ -117,11 +109,6 @@ class MessageResource extends Resource
                             ->schema([
                                 // ...
                                 Forms\Components\Section::make()
-                                    ->columns([
-                                        'sm' => 3,
-                                        'xl' => 6,
-                                        '2xl' => 8,
-                                    ])
                                     ->schema([
                                         Forms\Components\FileUpload::make('CSV File')
                                             ->columnSpan([
@@ -143,14 +130,13 @@ class MessageResource extends Resource
                                                 '2xl' => 12,
                                             ]),
                                     ]),
+                            ])
+                            ->columnSpan([
+                                'sm' => 2,
+                                'xl' => 3,
+                                '2xl' => 12,
                             ]),
-                    ])
-                    ->columnSpan([
-                        'sm' => 2,
-                        'xl' => 3,
-                        '2xl' => 1,
                     ]),
-                //
             ]);
     }
 
