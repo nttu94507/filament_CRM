@@ -6,15 +6,12 @@ use App\Filament\Resources\ProbeResource\Pages;
 use App\Filament\Resources\ProbeResource\RelationManagers;
 use App\Models\Probe;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\RichEditor;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProbeResource extends Resource
 {
@@ -35,7 +32,7 @@ class ProbeResource extends Resource
                         'P110' => 'P110',
                         'P120' => 'P120',
                         'P360' => 'P360',
-                    ]) ->required(),
+                    ])->required(),
                 Forms\Components\DatePicker::make('date_of_shipment')
                     ->required()
                     ->maxDate(now()),
@@ -60,7 +57,7 @@ class ProbeResource extends Resource
                     ->required(),
 
             ]);
-//            ->columnSpan(2);
+        //            ->columnSpan(2);
     }
 
     public static function table(Table $table): Table
@@ -75,7 +72,6 @@ class ProbeResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('customer.company_name')
                     ->searchable(),
-
 
                 //
             ])

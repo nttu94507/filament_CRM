@@ -10,8 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PatientResource extends Resource
 {
@@ -32,7 +30,7 @@ class PatientResource extends Resource
                         'cat' => 'Cat',
                         'dog' => 'Dog',
                         'rabbit' => 'Rabbit',
-                    ]) ->required(),
+                    ])->required(),
                 Forms\Components\DatePicker::make('date_of_birth')
                     ->required()
                     ->maxDate(now()),
@@ -64,12 +62,12 @@ class PatientResource extends Resource
             ->columns([
                 //
                 Tables\Columns\TextColumn::make('name')
-            ->searchable(),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('date_of_birth')
-            ->sortable(),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('owner.name')
-            ->searchable(),
+                    ->searchable(),
             ])
             ->filters([
                 //

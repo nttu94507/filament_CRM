@@ -13,18 +13,13 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('pushTarget');
-            $table->unsignedInteger('pushType');
-            $table->string('pushTopic')->nullable();
-            $table->string('pushTitle')->nullable();
-            $table->string('pushContent')->nullable();
-            $table->datetime('expected_delivery_date')->nullable();
-            $table->longText('conditions_json')->nullable();
-            $table->string('conditionOperator')->nullable();
-            $table->unsignedInteger('pushStatusForAndroid');
-            $table->unsignedInteger('pushStatusForIOS');
-            $table->string('pushStatusMemoForAndroid')->nullable();
-            $table->string('pushStatusMemoForIOS')->nullable();
+            $table->tinyInteger('push_target')->comment('0:topic');
+            $table->string('push_topic')->nullable();
+            $table->string('push_title')->nullable();
+            $table->string('push_content')->nullable();
+            $table->timestamp('expected_delivery_date');
+            $table->string('file_path')->nullable();
+            $table->unsignedInteger('push_status');
             $table->timestamps();
         });
     }

@@ -12,6 +12,7 @@ class Event extends Model
         'price' => MoneyCast::class,
 
     ];
+
     public function probe(): BelongsTo
     {
         return $this->belongsTo(Probe::class);
