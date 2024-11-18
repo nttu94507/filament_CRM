@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\ProbeResource\RelationManagers;
 
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -15,19 +17,23 @@ class EventsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('price')
-                    ->money('PHP')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
+                Textarea::make('description'),
+//                TextInput::make('price'),
+
+//                Tables\Columns\TextColumn::make('description')
+//                TextInput::make('price')
+//                    ->money('PHP')
+//                    ->sortable(),
+//                Tables\Columns\TextColumn::make('created_at')
+//                    ->dateTime(),
             ]);
+//            ->columns(3);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('description')
+//            ->recordTitleAttribute('description')
             ->columns([
                 Tables\Columns\TextColumn::make('description'),
                 Tables\Columns\TextColumn::make('created_at')

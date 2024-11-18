@@ -24,38 +24,41 @@ class ProbeResource extends Resource
         return $form
             ->schema([
                 //
-                TextInput::make('probe_id')
-                    ->required()
-                    ->maxLength(255),
-                Select::make('type')
-                    ->options([
-                        'P110' => 'P110',
-                        'P120' => 'P120',
-                        'P360' => 'P360',
-                    ])->required(),
-                Forms\Components\DatePicker::make('date_of_shipment')
-                    ->required()
-                    ->maxDate(now()),
-                Forms\Components\Select::make('customer_id')
-                    ->relationship('customer', 'company_name')
-                    ->searchable()
-                    ->preload()
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('company_name')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('email')
-                            ->label('Email address')
-                            ->email()
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('company_phone')
-                            ->label('Phone number')
-                            ->tel()
-                            ->required(),
-                    ])
-                    ->required(),
-
+                Forms\Components\Section::make('add Probe')
+                ->schema([
+                    TextInput::make('probe_id')
+                        ->required()
+                        ->maxLength(255),
+                    Select::make('type')
+                        ->options([
+                            'P110' => 'P110',
+                            'P120' => 'P120',
+                            'P360' => 'P360',
+                        ])->required(),
+                    Forms\Components\DatePicker::make('date_of_shipment')
+                        ->required()
+                        ->maxDate(now()),
+                    Forms\Components\Select::make('customer_id')
+                        ->relationship('customer', 'company_name')
+                        ->searchable()
+                        ->preload()
+                        ->createOptionForm([
+                            Forms\Components\TextInput::make('company_name')
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('email')
+                                ->label('Email address')
+                                ->email()
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('company_phone')
+                                ->label('Phone number')
+                                ->tel()
+                                ->required(),
+                        ])
+                        ->required(),
+                ])
+                ->columns(4)
             ]);
         //            ->columnSpan(2);
     }
@@ -67,7 +70,8 @@ class ProbeResource extends Resource
                 Tables\Columns\TextColumn::make('probe_id')
                     ->searchable()
                     ->label('ProbeID'),
-                Tables\Columns\TextColumn::make('type'),
+                Tables\Columns\TextColumn::make('type')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('date_of_shipment')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('customer.company_name')

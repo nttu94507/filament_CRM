@@ -4,6 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\EmployeeResource\Pages;
 use App\Models\Employee;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -20,6 +24,30 @@ class EmployeeResource extends Resource
         return $form
             ->schema([
                 //
+                Section::make()
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Name'),
+                        TextInput::make('email')
+                            ->label('Email'),
+                        TextInput::make('phone')
+                            ->label('Phone'),
+                        TextInput::make('address')
+                            ->label('Address')
+                            ->columnSpan(2),
+                        DateTimePicker::make('start_date')
+                            ->label('Start Date')
+                            ->columnSpan(2),
+//                TextInput::make('salary')
+//                ->label('Salary'),
+//                        Select::make('status')
+//                            ->label('Status')
+//                        ->options([
+//                            0 => 'Active',
+//                            1 => 'Off',
+//                        ]),
+                    ])
+                    ->columns(4)
             ]);
     }
 
@@ -28,6 +56,20 @@ class EmployeeResource extends Resource
         return $table
             ->columns([
                 //
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('phone'),
+//                Tables\Columns\TextColumn::make('address'),
+                Tables\Columns\TextColumn::make('start_date'),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
+                    ->color(fn (Employee $record) => match($record->status) {
+                        'active' => 'success',
+                        default => 'info'
+                    })
+                    ->badge(),
+                Tables\Columns\TextColumn::make('created_at'),
+//                Tables\Columns\TextColumn::make('updated_at'),
             ])
             ->filters([
                 //

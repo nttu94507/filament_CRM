@@ -10,10 +10,10 @@ class EditProbe extends EditRecord
 {
     protected static string $resource = ProbeResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+//    protected function getHeaderActions(): array
+//    {
+//        return [
+//            Actions\DeleteAction::make(),
+//        ];
+//    }
 }

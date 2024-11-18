@@ -4,10 +4,14 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomerResource\Pages;
 use App\Models\Customer;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use function Laravel\Prompts\text;
 
 class CustomerResource extends Resource
 {
@@ -20,6 +24,13 @@ class CustomerResource extends Resource
         return $form
             ->schema([
                 //
+                Section::make('add customer')
+                    ->schema([
+                        TextInput::make('company_name'),
+                        TextInput::make('company_phone'),
+                        TextInput::make('company_address'),
+                    ])
+                    ->columns(3)
             ]);
     }
 
@@ -28,6 +39,12 @@ class CustomerResource extends Resource
         return $table
             ->columns([
                 //
+                TextColumn::make('company_name')
+                    ->searchable(),
+                TextColumn::make('company_phone')
+                    ->searchable(),
+                TextColumn::make('company_address')
+                    ->searchable(),
             ])
             ->filters([
                 //
