@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('probes', function (Blueprint $table) {
             $table->id();
-            $table->date('date_of_shipment')->nullable();
-            $table->string('probe_id');
+            $table->date('date_of_shipment')->nullable()->comment('進貨日');
+            $table->string('probe_id')->comment('probe ID');
             $table->foreignId('customer_id')->nullable()->constrained('customers');
             $table->foreignId('employee_id')->nullable()->constrained('employees');
-            $table->string('type');
+            $table->string('type')->comment('Probe 型號');
+            $table->tinyInteger('status')->default(0)->comment('0-在庫, 1-出貨, 2-借出, 3-故障 , 4-待修');
+            $table->integer('cost')->nullable()->comment('成本');
+            $table->string('Manufacturer')->nullable()->comment('製造商');
             $table->timestamps();
         });
     }

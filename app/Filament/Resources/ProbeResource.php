@@ -32,8 +32,12 @@ class ProbeResource extends Resource
                     Select::make('type')
                         ->options([
                             'P110' => 'P110',
+                            'P110+' => 'P110+',
                             'P120' => 'P120',
+                            'P140' => 'P140',
+                            'P220' => 'P220',
                             'P360' => 'P360',
+                            'P560' => 'P560',
                         ])->required(),
                     Forms\Components\DatePicker::make('date_of_shipment')
                         ->required()

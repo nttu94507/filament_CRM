@@ -2,7 +2,9 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\ProbeResource;
 use App\Models\Patient;
+use App\Models\Probe;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -12,9 +14,13 @@ class PatientTypeOverview extends BaseWidget
     {
         return [
             //
-            Stat::make('Cats', Patient::query()->where('type', 'cat')->count()),
-            Stat::make('Dogs', Patient::query()->where('type', 'dog')->count()),
-            Stat::make('Rabbits', Patient::query()->where('type', 'rabbit')->count()),
+            Stat::make('P110', Probe::query()->where('type', 'P110')->count()),
+            Stat::make('P120', Patient::query()->where('type', 'P120')->count()),
+            Stat::make('P140', Patient::query()->where('type', 'P140')->count()),
+            Stat::make('P220', Patient::query()->where('type', 'P220')->count()),
+            Stat::make('P360', Patient::query()->where('type', 'P360')->count()),
+            Stat::make('P560', Patient::query()->where('type', 'P560')->count()),
+
         ];
     }
 }
