@@ -27,9 +27,11 @@ class ProbeResource extends Resource
                 Forms\Components\Section::make('add Probe')
                 ->schema([
                     TextInput::make('probe_id')
+                        ->label('Probe ID')
                         ->required()
                         ->maxLength(255),
                     Select::make('type')
+                        ->label('型號')
                         ->options([
                             'P110' => 'P110',
                             'P110+' => 'P110+',
@@ -39,16 +41,24 @@ class ProbeResource extends Resource
                             'P360' => 'P360',
                             'P560' => 'P560',
                         ])->required(),
+                    TextInput::make('cost')
+                    ->label('成本'),
                     Forms\Components\DatePicker::make('date_of_shipment')
+                        ->label('進貨日')
                         ->required()
 //                        ->maxDate(now())
                         ->default(now()),
-                    TextInput::make('cost'),
+                    Forms\Components\DatePicker::make('date_of_manufacturing')
+                        ->label('製造日')
+                        ->required()
+//                        ->maxDate(now())
+                        ->default(now()),
                     Select::make('manufacturer')
-                    ->options([
-                        'eui' => 'EUI',
-                        'google' => 'Google',
-                    ])
+                        ->label('廠商')
+                        ->options([
+                            'eui' => 'EUI',
+                            'google' => 'Google',
+                        ])
 //                    Forms\Components\Select::make('customer_id')
 //                        ->relationship('customer', 'company_name')
 //                        ->searchable()
@@ -69,7 +79,7 @@ class ProbeResource extends Resource
 //                        ])
 //                        ->required(),
                 ])
-                ->columns(5)
+                ->columns(3)
             ]);
         //            ->columnSpan(2);
     }
@@ -87,7 +97,7 @@ class ProbeResource extends Resource
                 Tables\Columns\TextColumn::make('date_of_shipment')
                     ->label('進貨日')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('Manufacturer')
+                Tables\Columns\TextColumn::make('manufacturer')
                     ->label('廠商')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('cost')
