@@ -41,28 +41,34 @@ class ProbeResource extends Resource
                         ])->required(),
                     Forms\Components\DatePicker::make('date_of_shipment')
                         ->required()
-                        ->maxDate(now()),
-                    Forms\Components\Select::make('customer_id')
-                        ->relationship('customer', 'company_name')
-                        ->searchable()
-                        ->preload()
-                        ->createOptionForm([
-                            Forms\Components\TextInput::make('company_name')
-                                ->required()
-                                ->maxLength(255),
-                            Forms\Components\TextInput::make('email')
-                                ->label('Email address')
-                                ->email()
-                                ->required()
-                                ->maxLength(255),
-                            Forms\Components\TextInput::make('company_phone')
-                                ->label('Phone number')
-                                ->tel()
-                                ->required(),
-                        ])
-                        ->required(),
+//                        ->maxDate(now())
+                        ->default(now()),
+                    TextInput::make('cost'),
+                    Select::make('manufacturer')
+                    ->options([
+                        'eui' => 'EUI',
+                    ])
+//                    Forms\Components\Select::make('customer_id')
+//                        ->relationship('customer', 'company_name')
+//                        ->searchable()
+//                        ->preload()
+//                        ->createOptionForm([
+//                            Forms\Components\TextInput::make('company_name')
+//                                ->required()
+//                                ->maxLength(255),
+//                            Forms\Components\TextInput::make('email')
+//                                ->label('Email address')
+//                                ->email()
+//                                ->required()
+//                                ->maxLength(255),
+//                            Forms\Components\TextInput::make('company_phone')
+//                                ->label('Phone number')
+//                                ->tel()
+//                                ->required(),
+//                        ])
+//                        ->required(),
                 ])
-                ->columns(4)
+                ->columns(5)
             ]);
         //            ->columnSpan(2);
     }
@@ -78,9 +84,9 @@ class ProbeResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date_of_shipment')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('customer.company_name')
+                Tables\Columns\TextColumn::make('manufacturer')
                     ->searchable(),
-
+                Tables\Columns\TextColumn::make('cost')
                 //
             ])
             ->filters([
