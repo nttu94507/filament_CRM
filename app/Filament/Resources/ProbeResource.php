@@ -47,6 +47,7 @@ class ProbeResource extends Resource
                     Select::make('manufacturer')
                     ->options([
                         'eui' => 'EUI',
+                        'google' => 'Google',
                     ])
 //                    Forms\Components\Select::make('customer_id')
 //                        ->relationship('customer', 'company_name')
@@ -81,12 +82,17 @@ class ProbeResource extends Resource
                     ->searchable()
                     ->label('ProbeID'),
                 Tables\Columns\TextColumn::make('type')
+                    ->label('型號')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date_of_shipment')
+                    ->label('進貨日')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('manufacturer')
+                Tables\Columns\TextColumn::make('Manufacturer')
+                    ->label('廠商')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('cost')
+                ->label('成本')
+                ->sortable(),
                 //
             ])
             ->filters([

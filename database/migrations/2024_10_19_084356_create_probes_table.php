@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('probes', function (Blueprint $table) {
             $table->id();
             $table->date('date_of_shipment')->nullable()->comment('進貨日');
+            $table->date('date_of_manufacturing')->nullable()->comment('製造日');
             $table->string('probe_id')->comment('probe ID');
             $table->foreignId('customer_id')->nullable()->constrained('customers');
             $table->foreignId('employee_id')->nullable()->constrained('employees');
