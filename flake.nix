@@ -49,7 +49,6 @@
             php
             php.packages.composer
             pkgs.nodePackages.nodejs
-
           ];
 
           # Post-activation hook to symlink PHP to ./.bin directory

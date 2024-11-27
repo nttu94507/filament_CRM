@@ -22,10 +22,12 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+
         return $panel
             ->default()
             ->id('admin')
             ->path('')
+            ->favicon('https://img.icons8.com/?size=100&id=NVsfZ2PmUMPu&format=png&color=000000')
             ->login()
             ->registration()
             ->passwordReset()

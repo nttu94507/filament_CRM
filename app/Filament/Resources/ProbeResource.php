@@ -17,6 +17,7 @@ class ProbeResource extends Resource
 {
     protected static ?string $model = Probe::class;
 
+    protected static ?string $navigationLabel = '庫存管理';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
