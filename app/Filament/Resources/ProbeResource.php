@@ -18,7 +18,12 @@ class ProbeResource extends Resource
     protected static ?string $model = Probe::class;
 
     protected static ?string $navigationLabel = '庫存管理';
+
+    protected static ?string $modelLabel = 'probes';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+
 
     public static function form(Form $form): Form
     {
@@ -59,7 +64,7 @@ class ProbeResource extends Resource
                         ->options([
                             'eui' => 'EUI',
                             'google' => 'Google',
-                        ])
+                        ]),
 //                    Forms\Components\Select::make('customer_id')
 //                        ->relationship('customer', 'company_name')
 //                        ->searchable()
@@ -109,8 +114,14 @@ class ProbeResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make()
+                    ->label('新增')
+                    ->createAnother(false),
+            ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                ->label('編輯'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
