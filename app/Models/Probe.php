@@ -27,4 +27,9 @@ class Probe extends Model
     {
         return $this->hasMany(Event::class);
     }
+
+    public function manufacturer(){
+        return $this->hasMany(Manufacturer::class);
+    }
+
 }

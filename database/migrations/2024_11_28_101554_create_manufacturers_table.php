@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('manufacturers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('phone')->nullable();
-            $table->string('address')->nullable();
-            $table->string('tax_number')->nullable();
+            $table->string('name')->comment('名稱');
+            $table->string('phone')->comment('聯繫方式')->nullable();
+            $table->string('address')->nullable()->comment('地址');
+            $table->string('tax_number')->nullable()->comment('統一編號');
             $table->timestamps();
         });
     }

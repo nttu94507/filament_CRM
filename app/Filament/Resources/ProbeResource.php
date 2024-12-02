@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProbeResource\Pages;
 use App\Filament\Resources\ProbeResource\RelationManagers;
+use App\Models\Manufacturer;
 use App\Models\Probe;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -59,35 +60,46 @@ class ProbeResource extends Resource
                         ->required()
 //                        ->maxDate(now())
                         ->default(now()),
-                    Select::make('manufacturer')
-                        ->label('廠商')
-                        ->options([
-                            'eui' => 'EUI',
-                            'google' => 'Google',
-                        ]),
-//                    Forms\Components\Select::make('customer_id')
-//                        ->relationship('customer', 'company_name')
-//                        ->searchable()
-//                        ->preload()
-//                        ->createOptionForm([
-//                            Forms\Components\TextInput::make('company_name')
-//                                ->required()
-//                                ->maxLength(255),
-//                            Forms\Components\TextInput::make('email')
-//                                ->label('Email address')
-//                                ->email()
-//                                ->required()
-//                                ->maxLength(255),
-//                            Forms\Components\TextInput::make('company_phone')
-//                                ->label('Phone number')
-//                                ->tel()
-//                                ->required(),
+//                    Select::make('manufacturer')
+//                        ->label('廠商')
+//                        ->options([
+//                            'eui' => 'EUI',
+//                            'google' => 'Google',
 //                        ])
 //                        ->required(),
+                    Forms\Components\Select::make('manufacturer_id')
+                        ->label('製造商')
+                        ->relationship('Manufacturer', 'name')
+                        ->searchable()
+                        ->preload()
+                        ->createOptionForm([
+                            Forms\Components\TextInput::make('name')
+                                ->label('廠商名稱')
+                                ->required()
+                                ->inlineLabel()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('phone')
+                                ->label('手機')
+                                ->tel()
+                                ->required()
+                                ->inlineLabel()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('address')
+                                ->label('廠商地址')
+//                                ->tel()
+                                ->inlineLabel()
+                                ->required(),
+                            Forms\Components\TextInput::make('tax_number')
+                                ->label('統一編號')
+                                ->tel()
+                                ->inlineLabel()
+                                ->required(),
+                        ])
+                        ->required(),
                 ])
-                ->columns(3)
+                ->columns(2)
+                ->inlineLabel()
             ]);
-        //            ->columnSpan(2);
     }
 
     public static function table(Table $table): Table
@@ -103,7 +115,7 @@ class ProbeResource extends Resource
                 Tables\Columns\TextColumn::make('date_of_shipment')
                     ->label('進貨日')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('manufacturer')
+                Tables\Columns\TextColumn::make('manufacturer_id')
                     ->label('廠商')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('cost')
