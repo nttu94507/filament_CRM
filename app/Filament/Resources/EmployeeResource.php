@@ -39,16 +39,16 @@ class EmployeeResource extends Resource
                         DateTimePicker::make('start_date')
                             ->label('Start Date')
                             ->columnSpan(2),
-//                TextInput::make('salary')
-//                ->label('Salary'),
-//                        Select::make('status')
-//                            ->label('Status')
-//                        ->options([
-//                            0 => 'Active',
-//                            1 => 'Off',
-//                        ]),
+                        //                TextInput::make('salary')
+                        //                ->label('Salary'),
+                        //                        Select::make('status')
+                        //                            ->label('Status')
+                        //                        ->options([
+                        //                            0 => 'Active',
+                        //                            1 => 'Off',
+                        //                        ]),
                     ])
-                    ->columns(4)
+                    ->columns(4),
             ]);
     }
 
@@ -60,17 +60,17 @@ class EmployeeResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('phone'),
-//                Tables\Columns\TextColumn::make('address'),
+                //                Tables\Columns\TextColumn::make('address'),
                 Tables\Columns\TextColumn::make('start_date'),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
-                    ->color(fn (Employee $record) => match($record->status) {
+                    ->color(fn(Employee $record) => match ($record->status) {
                         'active' => 'success',
                         default => 'info'
                     })
                     ->badge(),
                 Tables\Columns\TextColumn::make('created_at'),
-//                Tables\Columns\TextColumn::make('updated_at'),
+                //                Tables\Columns\TextColumn::make('updated_at'),
             ])
             ->filters([
                 //

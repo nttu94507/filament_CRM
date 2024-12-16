@@ -9,7 +9,6 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Modules\Foundation\Models\CustomerSupport;
 
 class TreatmentsRelationManager extends RelationManager
 {
@@ -37,8 +36,8 @@ class TreatmentsRelationManager extends RelationManager
                     ->image()
                     ->formatStateUsing(fn(?Treatment $record = null) => $record
                         ? ['url' => "$record->image"] : []
-                    )
-//                    ->disk('public')
+                    ),
+                //                    ->disk('public')
 
             ]);
     }
@@ -54,8 +53,8 @@ class TreatmentsRelationManager extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
-                Tables\Columns\ImageColumn::make('image')
-//                fileUpload::make('image')
+                Tables\Columns\ImageColumn::make('image'),
+                //                fileUpload::make('image')
             ])
             ->filters([
                 //
@@ -77,6 +76,7 @@ class TreatmentsRelationManager extends RelationManager
     protected function handleRecordCreation(array $data): array
     {
         dd($data);
+
         return [
             Actions\ImportAction::make()
                 ->importer(UserImporter::class),

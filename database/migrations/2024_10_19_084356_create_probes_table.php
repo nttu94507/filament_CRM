@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('type')->comment('Probe 型號');
             $table->tinyInteger('status')->default(0)->comment('0-在庫, 1-出貨, 2-借出, 3-故障 , 4-待修');
             $table->integer('cost')->nullable()->comment('成本');
-            $table->foreignId('manufacturer_id')->nullable()->comment('製造商');
+            $table->foreignId('manufacturer_id')->nullable()->constrained('manufacturers');
             $table->timestamps();
         });
     }

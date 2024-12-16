@@ -18,16 +18,16 @@ class EventsRelationManager extends RelationManager
         return $form
             ->schema([
                 Textarea::make('description'),
-//                TextInput::make('price'),
+                //                TextInput::make('price'),
 
-//                Tables\Columns\TextColumn::make('description')
-//                TextInput::make('price')
-//                    ->money('PHP')
-//                    ->sortable(),
-//                Tables\Columns\TextColumn::make('created_at')
-//                    ->dateTime(),
+                //                Tables\Columns\TextColumn::make('description')
+                //                TextInput::make('price')
+                //                    ->money('PHP')
+                //                    ->sortable(),
+                //                Tables\Columns\TextColumn::make('created_at')
+                //                    ->dateTime(),
             ]);
-//            ->columns(3);
+        //            ->columns(3);
     }
 
     public function table(Table $table): Table
@@ -36,7 +36,7 @@ class EventsRelationManager extends RelationManager
 //            ->recordTitleAttribute('description')
             ->columns([
                 Tables\Columns\TextColumn::make('description')
-                     ->label('內容'),
+                    ->label('內容'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->label('時間'),
@@ -50,12 +50,12 @@ class EventsRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label('編輯'),
-//                Tables\Actions\DeleteAction::make(),
+                //                Tables\Actions\DeleteAction::make(),
             ]);
-//            ->bulkActions([
-//                Tables\Actions\BulkActionGroup::make([
-//                    Tables\Actions\DeleteBulkAction::make(),
-//                ]),
-//            ]);
+        //            ->bulkActions([
+        //                Tables\Actions\BulkActionGroup::make([
+        //                    Tables\Actions\DeleteBulkAction::make(),
+        //                ]),
+        //            ]);
     }
 }

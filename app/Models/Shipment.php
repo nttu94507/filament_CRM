@@ -12,14 +12,14 @@ class Shipment extends Model
 
     protected $fillable = [];
 
-     public function user(): BelongsTo
-     {
-         return $this->belongsTo(User::class, 'user_id','id');
-     }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
-      public function customer(): BelongsTo
-      {
-          return $this->belongsTo(Customer::class, 'receiver_id','id');
-      }
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class, 'receiver_id', 'id');
+    }
     //
 }

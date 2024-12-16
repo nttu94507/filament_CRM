@@ -10,13 +10,13 @@ class ListProbes extends ListRecords
 {
     protected static string $resource = ProbeResource::class;
 
-//    protected function getHeaderActions(): array
-//    {
-//        return [
-//            Actions\CreateAction::make()
-//                ->createAnother(false)
-//                ->label('新增probe')
-//            ,
-//        ];
-//    }
+    //    protected function getHeaderActions(): array
+    //    {
+    //        return [
+    //            Actions\CreateAction::make()
+    //                ->createAnother(false)
+    //                ->label('新增probe')
+    //            ,
+    //        ];
+    //    }
 }

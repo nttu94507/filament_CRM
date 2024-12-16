@@ -10,8 +10,8 @@ class CreateProbe extends CreateRecord
     protected static string $resource = ProbeResource::class;
 
     protected static ?string $title = '新增probe';
-    protected static bool $canCreateAnother = false;
 
+    protected static bool $canCreateAnother = false;
 
     protected function getFormActions(): array
     {

@@ -18,13 +18,13 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
-//            $table->string('password');
+            //            $table->string('password');
             $table->string('status')->default('active');
             $table->dateTime('start_date')->default(now());
             $table->dateTime('end_date')->nullable();
-//            $table->foreignId('department_id')->nullable()->constrained();
-//            $table->foreignId('position_id')->nullable()->constrained();
-//            $table->string('department');
+            //            $table->foreignId('department_id')->nullable()->constrained();
+            //            $table->foreignId('position_id')->nullable()->constrained();
+            //            $table->string('department');
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employees');
+                Schema::dropIfExists('employees');
     }
 };
