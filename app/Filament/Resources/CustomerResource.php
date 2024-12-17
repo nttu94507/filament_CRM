@@ -17,6 +17,7 @@ class CustomerResource extends Resource
     protected static ?string $model = Customer::class;
 
     protected static ?string $navigationLabel = '客戶管理';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -30,7 +31,7 @@ class CustomerResource extends Resource
                         TextInput::make('company_phone'),
                         TextInput::make('company_address'),
                     ])
-                    ->columns(3)
+                    ->columns(3),
             ]);
     }
 

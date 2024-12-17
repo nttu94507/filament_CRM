@@ -3,12 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ShipmentResource\Pages;
+use App\Models\Probe;
 use App\Models\Shipment;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ShipmentResource extends Resource
 {
@@ -20,6 +22,7 @@ class ShipmentResource extends Resource
     {
         return $form
             ->schema([
+
                 Forms\Components\Select::make('action_type')
                     ->options([
                         0 => '出貨',
@@ -34,6 +37,20 @@ class ShipmentResource extends Resource
                         Forms\Components\TextInput::make('company_address'),
                         Forms\Components\TextInput::make('company_phone'),
                     ]),
+                Forms\Components\Select::make('probes')
+                    ->relationship(
+                        name: 'probe',
+                        titleAttribute: 'probe_id',
+                        modifyQueryUsing: fn(Builder $query) => $query->orderBy('id'),
+                    )
+                    ->getSearchResultsUsing(fn(string $search): array => Probe::all()->limit(50)->pluck('probe_id', 'id')->toArray())
+                    ->getOptionLabelFromRecordUsing(fn(Probe $record) => "{$record->probe_id}.'      '.{$record->type}")
+                    ->searchable()
+//                    ->createOptionForm([
+//                        Forms\Components\TextInput::make('name'),
+//                    ])
+                    ->preload(),
+
             ]);
     }
 
@@ -49,6 +66,7 @@ class ShipmentResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

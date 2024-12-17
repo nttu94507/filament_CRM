@@ -16,7 +16,7 @@ class CreateShipment extends CreateRecord
         $serial_no = str_pad($shipment_counts, 5, 0, STR_PAD_LEFT);
         $data['user_id'] = auth()->id();
         $data['case_id'] = 'PIXIS'.date('ymd').$serial_no;
-        dd($data);
+        //        dd($data);
 
         return $data;
     }
