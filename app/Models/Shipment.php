@@ -12,6 +12,10 @@ class Shipment extends Model
 
     protected $fillable = [];
 
+    protected $casts = [
+        'probes' => 'array',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -22,10 +26,10 @@ class Shipment extends Model
         return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
 
-    public function probe(): BelongsTo
-    {
-        return $this->belongsTo(Probe::class, 'customer_id', 'id');
-    }
+    //    public function probe(): BelongsTo
+    //    {
+    //        return $this->belongsTo(Probe::class, 'customer_id', 'id');
+    //    }
 
     //
 }

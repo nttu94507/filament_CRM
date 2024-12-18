@@ -38,17 +38,32 @@ class ShipmentResource extends Resource
                         Forms\Components\TextInput::make('company_phone'),
                     ]),
                 Forms\Components\Select::make('probes')
-                    ->relationship(
-                        name: 'probe',
-                        titleAttribute: 'probe_id',
-                        modifyQueryUsing: fn(Builder $query) => $query->orderBy('id'),
+                    ->getSearchResultsUsing(function (string $search): array {
+                        return Probe::query()
+                            ->where(function (Builder $builder) use ($search) {
+                                $searchString = "%$search%";
+                                $builder->where('probe_id', 'like', $searchString)
+                                    ->orWhere('type', 'like', $searchString);
+                            })
+                            ->orderBy('date_of_manufacturing')
+                            ->limit(50)
+                            ->get()
+                            ->mapWithKeys(fn($probe) => [$probe->id => $probe->probe_id.'-'.$probe->type])
+                            ->toArray();
+                    })
+//                    ->getOptionLabelsUsing(function ($value): ?string {
+//                        $probe = Probe::find($value);
+//
+//                        return $probe->id.' - '.$probe->type;
+//                    })
+
+                    ->options(Probe::all()
+                        ->mapWithKeys(function ($probe) {
+                            return [$probe->id => $probe->probe_id.'-'.$probe->type];
+                        })->toArray()
                     )
-                    ->getSearchResultsUsing(fn(string $search): array => Probe::all()->limit(50)->pluck('probe_id', 'id')->toArray())
-                    ->getOptionLabelFromRecordUsing(fn(Probe $record) => "{$record->probe_id}.'      '.{$record->type}")
                     ->searchable()
-//                    ->createOptionForm([
-//                        Forms\Components\TextInput::make('name'),
-//                    ])
+                    ->multiple()
                     ->preload(),
 
             ]);
