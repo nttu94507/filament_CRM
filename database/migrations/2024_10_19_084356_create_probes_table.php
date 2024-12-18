@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('date_of_shipment')->nullable()->comment('進貨日');
             $table->date('date_of_manufacturing')->nullable()->comment('製造日');
-            $table->string('probe_id')->comment('probe ID');
+            $table->string('probe_id')->unique()->comment('probe ID');
             $table->foreignId('customer_id')->nullable()->constrained('customers');
             $table->foreignId('employee_id')->nullable()->constrained('employees');
             $table->string('type')->comment('Probe 型號');

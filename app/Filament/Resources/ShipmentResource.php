@@ -22,51 +22,58 @@ class ShipmentResource extends Resource
     {
         return $form
             ->schema([
-
-                Forms\Components\Select::make('action_type')
-                    ->options([
-                        0 => '出貨',
-                        1 => '換貨',
-                        2 => '借測',
-                        3 => '退貨',
-                    ]),
-                Forms\Components\Select::make('customer_id')
-                    ->relationship('customer', 'company_name')
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('company_name'),
-                        Forms\Components\TextInput::make('company_address'),
-                        Forms\Components\TextInput::make('company_phone'),
-                    ]),
-                Forms\Components\Select::make('probes')
-                    ->getSearchResultsUsing(function (string $search): array {
-                        return Probe::query()
-                            ->where(function (Builder $builder) use ($search) {
-                                $searchString = "%$search%";
-                                $builder->where('probe_id', 'like', $searchString)
-                                    ->orWhere('type', 'like', $searchString);
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\Select::make('action_type')
+                            ->options([
+                                0 => '出貨',
+                                1 => '換貨',
+                                2 => '借測',
+                                3 => '退貨',
+                            ])
+                            ->required(),
+                        Forms\Components\Select::make('customer_id')
+                            ->relationship('customer', 'company_name')
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('company_name'),
+                                Forms\Components\TextInput::make('company_address'),
+                                Forms\Components\TextInput::make('company_phone'),
+                            ])
+                            ->required(),
+                        Forms\Components\Select::make('probes')
+                            ->getSearchResultsUsing(function (string $search): array {
+                                return Probe::query()
+                                    ->where(function (Builder $builder) use ($search) {
+                                        $searchString = "%$search%";
+                                        $builder->where('probe_id', 'like', $searchString)
+                                            ->orWhere('type', 'like', $searchString);
+                                    })
+                                    ->orderBy('date_of_manufacturing')
+                                    ->limit(50)
+                                    ->get()
+                                    ->mapWithKeys(fn($probe) => [$probe->id => $probe->probe_id.'-'.$probe->type])
+                                    ->toArray();
                             })
-                            ->orderBy('date_of_manufacturing')
-                            ->limit(50)
-                            ->get()
-                            ->mapWithKeys(fn($probe) => [$probe->id => $probe->probe_id.'-'.$probe->type])
-                            ->toArray();
-                    })
-//                    ->getOptionLabelsUsing(function ($value): ?string {
-//                        $probe = Probe::find($value);
-//
-//                        return $probe->id.' - '.$probe->type;
-//                    })
+                            ->options(Probe::all()
+                                ->mapWithKeys(function ($probe) {
+                                    return [$probe->id => $probe->probe_id.'-'.$probe->type];
+                                })->toArray()
+                            )
+                            ->searchable()
+                            ->multiple()
+                            ->preload()
+//                            ->columnSpan('2')
+                            ->required(),
+                        Forms\Components\TextInput::make('note')
 
-                    ->options(Probe::all()
-                        ->mapWithKeys(function ($probe) {
-                            return [$probe->id => $probe->probe_id.'-'.$probe->type];
-                        })->toArray()
-                    )
-                    ->searchable()
-                    ->multiple()
-                    ->preload(),
-
+                    ])
+//                    ->
+//                    ->columns('2')
             ]);
+
+//            ->inlineLabel();
+
+
     }
 
     public static function table(Table $table): Table
