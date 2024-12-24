@@ -125,8 +125,10 @@ class ShipmentResource extends Resource
             ->filters([
                 //
             ])
+            ->recordUrl(false)
             ->actions([
-//                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make()
+//                ->hidden(fn($record) => !$record->is_editable),
             Tables\Actions\DeleteAction::make('delete')
 
             ])
