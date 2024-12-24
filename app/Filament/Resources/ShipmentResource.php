@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ShipmentResource\Pages;
 use App\Models\Probe;
 use App\Models\Shipment;
+use Filament\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -109,6 +110,8 @@ class ShipmentResource extends Resource
                         '2' => 'gray',
                         '3' => 'danger',
                     }),
+                Tables\Columns\TextColumn::make('case_id')
+                ->label('出貨單號'),
                 Tables\Columns\TextColumn::make('customer.company_name'),
                 Tables\Columns\TextColumn::make('shipment_items_count')
                     ->label('probe 數量')
@@ -123,7 +126,8 @@ class ShipmentResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make('delete')
 
             ])
             ->bulkActions([
