@@ -83,7 +83,7 @@ class ShipmentResource extends Resource
                             ->default(0)
                             ->readOnly(),
                         Forms\Components\TextInput::make('note')
-                        ->label('備注'),
+                            ->label('備註'),
                     ])
                     ->columns('2'),
             ]);
