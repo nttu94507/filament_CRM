@@ -24,7 +24,7 @@ return new class extends Migration
 
         Schema::create('shipment_items', function (Blueprint $table) {
             $table->id();
-            $table->string('case_id')->comment('案件編號');
+            $table->string('shipment_id')->comment('案件編號');
             $table->foreignId('probe_id');
             $table->timestamps();
         });

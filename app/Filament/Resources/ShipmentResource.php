@@ -7,6 +7,7 @@ use App\Models\Probe;
 use App\Models\Shipment;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,6 +16,8 @@ use Illuminate\Database\Eloquent\Builder;
 class ShipmentResource extends Resource
 {
     protected static ?string $model = Shipment::class;
+
+    protected static ?string $navigationLabel = '出貨管理';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -25,6 +28,7 @@ class ShipmentResource extends Resource
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\Select::make('action_type')
+                            ->label('出貨類型')
                             ->options([
                                 0 => '出貨',
                                 1 => '換貨',
@@ -33,6 +37,7 @@ class ShipmentResource extends Resource
                             ])
                             ->required(),
                         Forms\Components\Select::make('customer_id')
+                            ->label('客戶名稱')
                             ->relationship('customer', 'company_name')
                             ->createOptionForm([
                                 Forms\Components\TextInput::make('company_name'),
@@ -41,6 +46,7 @@ class ShipmentResource extends Resource
                             ])
                             ->required(),
                         Forms\Components\Select::make('probes')
+                            ->label('Probes')
                             ->getSearchResultsUsing(function (string $search): array {
                                 return Probe::query()
                                     ->where(function (Builder $builder) use ($search) {
@@ -59,21 +65,28 @@ class ShipmentResource extends Resource
                                     return [$probe->id => $probe->probe_id.'-'.$probe->type];
                                 })->toArray()
                             )
+                            ->live()
+                            ->afterStateUpdated(function ($state, Set $set, Forms\Get $get) {
+                                $total = 0;
+                                foreach ($state as $probe) {
+                                    $cost = Probe::find($probe)->cost;
+                                    $total += $cost;
+                                }
+                                $set('total', $total);
+                            })
                             ->searchable()
                             ->multiple()
                             ->preload()
-//                            ->columnSpan('2')
                             ->required(),
+                        Forms\Components\TextInput::make('total')
+                            ->label('總成本')
+                            ->default(0)
+                            ->readOnly(),
                         Forms\Components\TextInput::make('note')
-
+                        ->label('備注'),
                     ])
-//                    ->
-//                    ->columns('2')
+                    ->columns('2'),
             ]);
-
-//            ->inlineLabel();
-
-
     }
 
     public static function table(Table $table): Table
@@ -110,7 +123,6 @@ class ShipmentResource extends Resource
             'index' => Pages\ListShipments::route('/'),
             'create' => Pages\CreateShipment::route('/create'),
             'edit' => Pages\EditShipment::route('/{record}/edit'),
-            'new' => Pages\NewCreateShipment::route('/new'),
         ];
     }
 }

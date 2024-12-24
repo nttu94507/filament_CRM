@@ -27,14 +27,17 @@ class CreateShipment extends CreateRecord
         $shipment->case_id = $case_no;
         $shipment->save();
 
-        dd($shipment->id);
+        //        dd($data['probes']);
 
-        foreach ($data['probes'] as $shipment_item) {
+        foreach ($data['probes'] as $key => $probe) {
+            //            dd($probe);
             $shipment_item = new ShipmentItem;
             $shipment_item->shipment_id = $shipment->id;
+            $shipment_item->probe_id = $probe;
+            $shipment_item->save();
         }
-        $shipment_item = new ShipmentItem;
-        return static::getModel()::create($data);
+
+        return $shipment;
     }
 
     //    protected function mutateFormDataBeforeCreate(array $data): array
