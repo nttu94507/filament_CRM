@@ -16,4 +16,13 @@ class ListShipments extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    //    protected function mutateFormDataBeforeFill(array $data): array
+    //    {
+    //        dd($data);
+    //
+    //        $data['user_id'] = auth()->id();
+    //
+    //        return $data;
+    //    }
 }

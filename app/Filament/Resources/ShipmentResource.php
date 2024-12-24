@@ -95,13 +95,28 @@ class ShipmentResource extends Resource
             ->columns([
                 //
                 Tables\Columns\TextColumn::make('action_type')
-                    ->label('出貨方式'),
+                    ->label('出貨方式')
+                    ->formatStateUsing(fn(string $state): string => match ($state) {
+                        '0' => '出貨',
+                        '1' => '換貨',
+                        '2' => '借測',
+                        '3' => '退貨',
+
+                    })
+                    ->color(fn(string $state): string => match ($state) {
+                        '0' => 'success',
+                        '1' => 'warning',
+                        '2' => 'gray',
+                        '3' => 'danger',
+                    }),
                 Tables\Columns\TextColumn::make('customer.company_name'),
                 Tables\Columns\TextColumn::make('shipment_items_count')
                     ->label('probe 數量')
                     ->counts('shipment_items'),
-
-                //                ->getRelationship('Customer','company_name')
+                Tables\Columns\TextColumn::make('total')
+                    ->label('總成本'),
+                Tables\Columns\TextColumn::make('note')
+                    ->label('備註'),
 
             ])
             ->filters([
