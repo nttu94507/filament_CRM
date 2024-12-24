@@ -94,6 +94,14 @@ class ShipmentResource extends Resource
         return $table
             ->columns([
                 //
+                Tables\Columns\TextColumn::make('action_type')
+                    ->label('出貨方式'),
+                Tables\Columns\TextColumn::make('customer.company_name'),
+                Tables\Columns\TextColumn::make('shipment_items_count')
+                    ->label('probe 數量')
+                    ->counts('shipment_items'),
+
+                //                ->getRelationship('Customer','company_name')
 
             ])
             ->filters([
