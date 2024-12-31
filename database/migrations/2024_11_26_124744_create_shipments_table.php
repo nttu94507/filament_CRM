@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('action_type')->comment('1:出貨 2:換貨 3:借測 4:内借 5:故障退回');
+            $table->tinyInteger('action_type')->default('1')->comment('1:出貨 2:換貨 3:借測 4:内借 5:故障退回');
             $table->foreignId('customer_id')->nullable()->comment('收件者');
             $table->foreignId('user_id')->comment('建立者');
             $table->string('case_id')->comment('案件編號');

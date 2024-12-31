@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ShipmentResource\Pages;
 
 use App\Filament\Resources\ShipmentResource;
+use App\Models\Probe;
 use App\Models\Shipment;
 use App\Models\ShipmentItem;
 use Filament\Resources\Pages\CreateRecord;
@@ -35,6 +36,33 @@ class CreateShipment extends CreateRecord
             $shipment_item->shipment_id = $shipment->id;
             $shipment_item->probe_id = $probe;
             $shipment_item->save();
+        }
+
+        //依據action_type 更新所有probe 狀態
+        switch ($data['action_type']) {
+            case '1':
+                Probe::query()
+                    ->whereIn('id', $data['probes'])
+                    ->update(['status' => 1]);
+                break;
+            case '2':
+                Probe::query()
+                    ->whereIn('id', $data['probes'])
+                    ->update(['status' => 4]);
+
+                break;
+            case '3':
+                Probe::query()
+                    ->whereIn('id', $data['probes'])
+                    ->update(['status' => 2]);
+
+                break;
+            case '4':
+                Probe::query()
+                    ->whereIn('id', $data['probes'])
+                    ->update(['status' => 4]);
+                break;
+
         }
 
         return $shipment;

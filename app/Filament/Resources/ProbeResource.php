@@ -104,12 +104,31 @@ class ProbeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('probe_id')
-                    ->searchable()
-                    ->label('ProbeID'),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('狀態')
+//                    ->searchable()
+                    ->formatStateUsing(fn(string $state): string => match ($state) {
+                        '0' => '在庫',
+                        '1' => '出貨',
+                        '2' => '借出',
+                        '3' => '故障',
+                        '4' => '待修'
+                    })
+                    ->color(fn(string $state): string => match ($state) {
+                        '0' => 'success',
+                        '1' => 'warning',
+                        '2' => 'info',
+                        '3' => 'danger',
+                        '4' => 'gray'
+                    })
+                    ->badge(),
+
                 Tables\Columns\TextColumn::make('type')
                     ->label('型號')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('probe_id')
+                    ->searchable()
+                    ->label('ProbeID'),
                 Tables\Columns\TextColumn::make('date_of_shipment')
                     ->label('進貨日')
                     ->sortable(),
@@ -132,13 +151,13 @@ class ProbeResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label('編輯'),
-                //                Tables\Actions\CreateAction::make()
-                //                    ->label('新增'),
+                //                                Tables\Actions\CreateAction::make()
+                //                                    ->label('新增'),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                //                Tables\Actions\BulkActionGroup::make([
+                //                    Tables\Actions\DeleteBulkAction::make(),
+                //                ]),
             ]);
     }
 
