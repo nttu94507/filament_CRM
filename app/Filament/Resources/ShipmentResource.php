@@ -180,7 +180,7 @@ class ShipmentResource extends Resource
                     ->color(fn(string $state): string => match ($state) {
                         '1' => 'success',
                         '2' => 'warning',
-                        '3' => 'gray',
+                        '3' => 'info',
                         '4' => 'danger',
                     })
                     ->weight(FontWeight::ExtraBold)
@@ -191,12 +191,12 @@ class ShipmentResource extends Resource
                     ->formatStateUsing(fn(string $state): string => match ($state) {
                         '1' => '進行中',
                         '2' => '已完成',
-                        '3' => '已取消',
+                        //                        '3' => '已取消',
                     })
                     ->color(fn(string $state): string => match ($state) {
                         '1' => 'warning',
                         '2' => 'success',
-                        '3' => 'danger',
+                        //                        '3' => 'danger',
                     })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('case_id')
@@ -256,7 +256,7 @@ class ShipmentResource extends Resource
                 Tables\Actions\Action::make('completed')
                     ->label('完成')
                     ->color(Color::Emerald)
-                    ->action(fn(Shipment $record) => $record->update(['status' => 1]))
+                    ->action(fn(Shipment $record) => $record->update(['status' => 2]))
                     ->requiresConfirmation()
                     ->button()
                     ->disabled(fn(Shipment $record) => $record->status !== 1 ? true : false),
@@ -268,6 +268,12 @@ class ShipmentResource extends Resource
                     ->requiresConfirmation()
                     ->disabled(fn(Shipment $record) => $record->status !== 1 ? true : false)
                     ->action(function (Shipment $record) {
+                        $probes = $record->shipment_items()->get();
+                        $probeIds =[];
+                        foreach ($probes as $item) {
+                            $probeIds[] = $item->probe_id;
+                        }
+                        Probe::whereIn('id',$probeIds)->update(['status' => 0]);
                         $record->shipment_items()->delete();
                         $record->delete();
                     }),
