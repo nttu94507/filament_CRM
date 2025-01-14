@@ -106,21 +106,6 @@ class ProbeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('status')
                     ->label('狀態')
-//                    ->searchable()
-                    ->formatStateUsing(fn(string $state): string => match ($state) {
-                        '0' => '在庫',
-                        '1' => '出貨',
-                        '2' => '借出',
-                        '3' => '故障',
-                        '4' => '待修'
-                    })
-                    ->color(fn(string $state): string => match ($state) {
-                        '0' => 'success',
-                        '1' => 'warning',
-                        '2' => 'info',
-                        '3' => 'danger',
-                        '4' => 'gray'
-                    })
                     ->badge(),
 
                 Tables\Columns\TextColumn::make('type')

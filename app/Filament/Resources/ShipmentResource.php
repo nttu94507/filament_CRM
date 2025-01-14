@@ -5,6 +5,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ShipmentResource\Pages;
 use App\Models\Probe;
 use App\Models\Shipment;
+use App\Models\ShipmentItem;
+use App\ProbeStatus;
+use App\ShipmentStatus;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -31,12 +34,9 @@ class ShipmentResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('action_type')
                             ->label('出貨類型')
-                            ->options([
-                                1 => '出貨',
-                                2 => '換貨',
-                                3 => '借測',
-                                4 => '退貨',
-                            ])
+                            ->options(
+                                ShipmentStatus::class,
+                            )
                             ->required(),
                         Forms\Components\Select::make('customer_id')
                             ->label('客戶名稱')
@@ -59,11 +59,11 @@ class ShipmentResource extends Resource
                                                 $builder->where('probe_id', 'like', $searchString)
                                                     ->orWhere('type', 'like', $searchString);
                                             })
-                                            ->where('status', '=', '0')
+                                            ->where('status', '=', '1')
                                             ->orderBy('status')
                                             ->limit(50)
                                             ->get()
-                                            ->mapWithKeys(fn($probe) => [$probe->id => $probe->probe_id.'-'.$probe->type.' '.self::getstatus($probe->status)])
+                                            ->mapWithKeys(fn($probe) => [$probe->id => $probe->probe_id.'-'.$probe->type.' '.self::Label($probe->status)])
                                             ->toArray();
                                         break;
                                     case 2:
@@ -74,68 +74,35 @@ class ShipmentResource extends Resource
                                                 $builder->where('probe_id', 'like', $searchString)
                                                     ->orWhere('type', 'like', $searchString);
                                             })
-                                            ->where('status', '=', ['1', '3'])
+                                            ->where('status', '=', ['2', '4'])
                                             ->orderBy('status')
                                             ->limit(50)
                                             ->get()
-                                            ->mapWithKeys(fn($probe) => [$probe->id => $probe->probe_id.'-'.$probe->type.' '.self::getstatus($probe->status)])
+                                            ->mapWithKeys(fn($probe) => [$probe->id => $probe->probe_id.'-'.$probe->type.' '.self::Label($probe->status)])
                                             ->toArray();
 
                                 }
 
                             })
                             ->options(function (callable $get) {
-                                //                                switch ($get('action_type')) {
-                                //                                    case 1:
-                                //                                    case 3:
-                                //                                        return Probe::query()
-                                //                                            ->where(function (Builder $builder) use ($search) {
-                                //                                                $searchString = "%$search%";
-                                //                                                $builder->where('probe_id', 'like', $searchString)
-                                //                                                    ->orWhere('type', 'like', $searchString);
-                                //                                            })
-                                //                                            ->where('status','=','0')
-                                //                                            ->orderBy('status')
-                                //                                            ->limit(50)
-                                //                                            ->get()
-                                //                                            ->mapWithKeys(fn($probe) => [$probe->id => $probe->probe_id . '-' . $probe->type . ' ' . self::getstatus($probe->status)])
-                                //                                            ->toArray();
-                                //                                        break;
-                                //                                    case 2:
-                                //                                    case 4:
-                                //                                        return Probe::query()
-                                //                                            ->where(function (Builder $builder) use ($search) {
-                                //                                                $searchString = "%$search%";
-                                //                                                $builder->where('probe_id', 'like', $searchString)
-                                //                                                    ->orWhere('type', 'like', $searchString);
-                                //                                            })
-                                //                                            ->where('status','=',['1','3'])
-                                //                                            ->orderBy('status')
-                                //                                            ->limit(50)
-                                //                                            ->get()
-                                //                                            ->mapWithKeys(fn($probe) => [$probe->id => $probe->probe_id . '-' . $probe->type . ' ' . self::getstatus($probe->status)])
-                                //                                            ->toArray();
-                                //
-                                //                                }
                                 switch ($get('action_type')) {
                                     case 1:
                                     case 3:
                                         return Probe::query()
-                                            ->where('status', '=', '0')
+                                            ->where('status', '=', '1')
                                             ->get()
                                             ->mapWithKeys(function ($probe) {
-                                                return [$probe->id => $probe->probe_id.'-'.$probe->type.' '.self::getstatus($probe->status)];
+                                                return [$probe->id => $probe->probe_id.'-'.$probe->type.' '.self::Label($probe->status)];
                                             })->toArray();
 
                                     case 2:
                                     case 4:
                                         return Probe::query()
-                                            ->where('status', '=', '1')
-                                            ->orWhere('status', '=', '2')
-//                                       ->orWhere('status', '=', '3' )
+                                            ->where('status', '=', '2')
+                                            ->orWhere('status', '=', '5')
                                             ->get()
                                             ->mapWithKeys(function ($probe) {
-                                                return [$probe->id => $probe->probe_id.'-'.$probe->type.' '.self::getstatus($probe->status)];
+                                                return [$probe->id => $probe->probe_id.'-'.$probe->type.' '.self::Label($probe->status)];
                                             })->toArray();
                                 }
                             })
@@ -183,8 +150,7 @@ class ShipmentResource extends Resource
                         '3' => 'info',
                         '4' => 'danger',
                     })
-                    ->weight(FontWeight::ExtraBold)
-                    ->searchable(),
+                    ->weight(FontWeight::ExtraBold),
 
                 Tables\Columns\TextColumn::make('status')
                     ->label('狀態')
@@ -196,23 +162,18 @@ class ShipmentResource extends Resource
                     ->color(fn(string $state): string => match ($state) {
                         '1' => 'warning',
                         '2' => 'success',
-                        //                        '3' => 'danger',
-                    })
-                    ->searchable(),
+                    }),
                 Tables\Columns\TextColumn::make('case_id')
-                    ->label('出貨單號')
-                    ->searchable(),
+                    ->label('出貨單號'),
                 Tables\Columns\TextColumn::make('customer.company_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('shipment_items_count')
                     ->label('probe 數量')
                     ->counts('shipment_items'),
                 Tables\Columns\TextColumn::make('total')
-                    ->label('總成本')
-                    ->searchable(),
+                    ->label('總成本'),
                 Tables\Columns\TextColumn::make('note')
-                    ->label('備註')
-                    ->searchable(),
+                    ->label('備註'),
             ])
             ->filters([
                 Tables\Filters\Filter::make('test')
@@ -230,7 +191,6 @@ class ShipmentResource extends Resource
                             ])
                             ->columnSpan(1)
                             ->inlineLabel(),
-
                     ])
                     ->columns(2)
                     ->columnSpanFull()
@@ -252,28 +212,57 @@ class ShipmentResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make('view')
                     ->button(),
-                //                    ->color('warning'),
                 Tables\Actions\Action::make('completed')
                     ->label('完成')
                     ->color(Color::Emerald)
-                    ->action(fn(Shipment $record) => $record->update(['status' => 2]))
+                    ->action(function (Shipment $record) {
+                        $probes = ShipmentItem::query()->select('probe_id')->where('shipment_id', $record->id)->get()->toArray();
+                        $targets = array_column($probes, 'probe_id');
+                        switch ($record['action_type']) {
+                            case ShipmentStatus::shipped->value:
+                                Probe::query()
+                                    ->whereIn('id', $targets)
+                                    ->update(['status' => ProbeStatus::shipped->value]);
+                                break;
+                                //                            case ShipmentStatus::replace->value:
+                                //                                Probe::query()
+                                //                                    ->whereIn('id', $targets)
+                                //                                    ->update(['status' => ProbeStatus::returned->value]);
+                                //
+                                //                                break;
+                            case ShipmentStatus::lend->value:
+                                Probe::query()
+                                    ->whereIn('id', $targets)
+                                    ->update(['status' => ProbeStatus::lent->value]);
+
+                                break;
+                            case ShipmentStatus::returned->value:
+                                Probe::query()
+                                    ->whereIn('id', $targets)
+                                    ->update(['status' => ProbeStatus::returned->value]);
+                                break;
+                        }
+                        //                        dd(4123);
+                        $record->update(['status' => 2]);
+                    })
                     ->requiresConfirmation()
                     ->button()
-                    ->disabled(fn(Shipment $record) => $record->status !== 1 ? true : false),
+//                    ->badge()
+                    ->visible(fn(Shipment $record) => $record->status == 1 ? true : false),
                 Tables\Actions\Action::make('delete')
                     ->label('取消')
                     ->color('danger')
                     ->button()
 //                    ->action(fn(Shipment $record) => $record->update(['status' => 2]))
                     ->requiresConfirmation()
-                    ->disabled(fn(Shipment $record) => $record->status !== 1 ? true : false)
+                    ->visible(fn(Shipment $record) => $record->status == 1 ? true : false)
                     ->action(function (Shipment $record) {
                         $probes = $record->shipment_items()->get();
-                        $probeIds =[];
+                        $probeIds = [];
                         foreach ($probes as $item) {
                             $probeIds[] = $item->probe_id;
                         }
-                        Probe::whereIn('id',$probeIds)->update(['status' => 0]);
+                        Probe::whereIn('id', $probeIds)->update(['status' => ProbeStatus::inStock]);
                         $record->shipment_items()->delete();
                         $record->delete();
                     }),
@@ -302,22 +291,22 @@ class ShipmentResource extends Resource
         ];
     }
 
-    //    private  function getstatus(string $status): string
-    //    {
-    //
-    //    }
-
-    private static function getstatus($status)
+    private static function Label($status)
     {
-        switch ($status) {
+        //        dd($status);
+        switch ($status->value) {
             case '1':
-                return '出貨';
+                return '庫存';
             case '2':
+                return '出貨';
+            case '5':
                 return '借出';
             case '3':
                 return '待修';
             case '4':
                 return '故障';
+            case '5':
+                return '借出';
             default:
                 return '在庫';
 
