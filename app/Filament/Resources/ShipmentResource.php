@@ -165,8 +165,7 @@ class ShipmentResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('case_id')
                     ->label('出貨單號'),
-                Tables\Columns\TextColumn::make('customer.company_name')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('customer.company_name'),
                 Tables\Columns\TextColumn::make('shipment_items_count')
                     ->label('probe 數量')
                     ->counts('shipment_items'),
@@ -224,12 +223,6 @@ class ShipmentResource extends Resource
                                     ->whereIn('id', $targets)
                                     ->update(['status' => ProbeStatus::shipped->value]);
                                 break;
-                                //                            case ShipmentStatus::replace->value:
-                                //                                Probe::query()
-                                //                                    ->whereIn('id', $targets)
-                                //                                    ->update(['status' => ProbeStatus::returned->value]);
-                                //
-                                //                                break;
                             case ShipmentStatus::lend->value:
                                 Probe::query()
                                     ->whereIn('id', $targets)

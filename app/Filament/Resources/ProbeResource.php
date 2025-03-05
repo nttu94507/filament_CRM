@@ -34,7 +34,8 @@ class ProbeResource extends Resource
                         TextInput::make('probe_id')
                             ->label('Probe ID')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord),
                         Select::make('type')
                             ->label('型號')
                             ->options([
