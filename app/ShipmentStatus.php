@@ -2,9 +2,10 @@
 
 namespace App;
 
+use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
-enum ShipmentStatus: int implements HasLabel
+enum ShipmentStatus: int implements HasLabel,HasColor
 {
     //
     //        case reserve = 99; //預定
@@ -17,19 +18,19 @@ enum ShipmentStatus: int implements HasLabel
     {
         return match ($this) {
             self::shipped => '出貨',
-            self::returned => '歸還',
+            self::returned => '回庫',
             //            self::replace => '換貨',
             self::lend => '借出',
         };
     }
 
-    public function getColor(): ?string
+    public function getColor(): string|array|null
     {
         return match ($this) {
-            self::shipped => '出貨',
-            self::returned => '退貨',
+            self::shipped => 'success',
+            self::returned => 'gray',
             //            self::replace => '換貨',
-            self::lend => '借出',
+            self::lend => 'info',
         };
     }
 }

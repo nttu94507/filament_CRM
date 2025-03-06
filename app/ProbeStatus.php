@@ -21,8 +21,8 @@ enum ProbeStatus: int implements HasColor, HasLabel
             self::inStock => '庫存',
             self::reserve => '已預定',
             self::shipped => '已出貨',
-            self::returned => '退貨',
-            self::fault => '故障',
+            self::returned => '待檢測',
+            self::fault => '已故障',
             self::lent => '已借出',
         };
     }

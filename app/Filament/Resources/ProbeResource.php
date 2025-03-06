@@ -108,7 +108,6 @@ class ProbeResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->label('狀態')
                     ->badge(),
-
                 Tables\Columns\TextColumn::make('type')
                     ->label('型號')
                     ->searchable(),

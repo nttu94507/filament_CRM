@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\ProbeStatus;
+use App\ShipmentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +17,9 @@ class Shipment extends Model
 
     protected $casts = [
         'probes' => 'array',
+
+        'action_type' => ShipmentStatus::class,
+
     ];
 
     public function user(): BelongsTo

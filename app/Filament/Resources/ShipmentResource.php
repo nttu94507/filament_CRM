@@ -137,21 +137,7 @@ class ShipmentResource extends Resource
             ->columns([
                 //
                 Tables\Columns\TextColumn::make('action_type')
-                    ->label('類型')
-                    ->formatStateUsing(fn(string $state): string => match ($state) {
-                        '1' => '出貨',
-                        '2' => '換貨',
-                        '3' => '借測',
-                        '4' => '退貨',
-                    })
-                    ->color(fn(string $state): string => match ($state) {
-                        '1' => 'success',
-                        '2' => 'warning',
-                        '3' => 'info',
-                        '4' => 'danger',
-                    })
-                    ->weight(FontWeight::ExtraBold),
-
+                    ->label('類型'),
                 Tables\Columns\TextColumn::make('status')
                     ->label('狀態')
                     ->formatStateUsing(fn(string $state): string => match ($state) {
@@ -165,9 +151,10 @@ class ShipmentResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('case_id')
                     ->label('出貨單號'),
-                Tables\Columns\TextColumn::make('customer.company_name'),
+                Tables\Columns\TextColumn::make('customer.company_name')
+                ->label('客戶名稱'),
                 Tables\Columns\TextColumn::make('shipment_items_count')
-                    ->label('probe 數量')
+                    ->label('數量')
                     ->counts('shipment_items'),
                 Tables\Columns\TextColumn::make('total')
                     ->label('總成本'),
