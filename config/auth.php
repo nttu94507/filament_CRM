@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'sysusers',
+        ],
     ],
 
     /*
@@ -59,16 +63,16 @@ return [
     |
     */
 
+
     'providers' => [
+        'sysusers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Sysuser::class,
+        ],
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*

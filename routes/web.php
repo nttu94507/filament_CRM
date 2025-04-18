@@ -1,7 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\GoogleLoginController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+Route::get('/admin/login', \App\Filament\Pages\Login::class)->name('filament.admin.auth.login');
+Route::get('/admin/auth/redirect/google', [App\Http\Controllers\Auth\GoogleLoginController::class, 'redirect'])->name('login.google');
+Route::get('/admin/auth/callback/google', [App\Http\Controllers\Auth\GoogleLoginController::class, 'callback']);
+
