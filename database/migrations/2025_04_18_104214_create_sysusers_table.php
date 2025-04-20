@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name'); // 顯示用名稱
             $table->string('email')->unique();
+            $table->string('google_id')->nullable()->unique();
+            $table->string('provider')->nullable(); // ex: 'google'
+            $table->string('avatar')->nullable();
             $table->string('password');
 
             $table->string('role')->default('admin'); // admin / superadmin / manager 等

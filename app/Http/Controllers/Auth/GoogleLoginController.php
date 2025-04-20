@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Sysuser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
@@ -20,7 +21,7 @@ class GoogleLoginController extends Controller
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
 
-        $user = User::updateOrCreate(
+        $sysuser = Sysuser::updateOrCreate(
             ['email' => $googleUser->getEmail()],
             [
                 'name' => $googleUser->getName(),
@@ -30,7 +31,7 @@ class GoogleLoginController extends Controller
             ]
         );
 
-        Auth::login($user, remember: true);
+        Auth::login($sysuser, remember: true);
 
         return redirect('/admin'); // 或 /user，看你登入哪一個 panel
     }
