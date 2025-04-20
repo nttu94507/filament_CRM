@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User; // 或改成 Sysuser
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +26,7 @@ class GoogleLoginController extends Controller
                 'name' => $googleUser->getName(),
                 'google_id' => $googleUser->getId(),
                 'avatar' => $googleUser->getAvatar(),
+                'password' => Hash::make(Str::random(32)),
             ]
         );
 
