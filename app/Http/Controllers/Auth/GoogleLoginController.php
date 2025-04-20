@@ -21,7 +21,7 @@ class GoogleLoginController extends Controller
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
 
-        $sysuser = Sysuser::updateOrCreate(
+        $user = Sysuser::updateOrCreate(
             ['email' => $googleUser->getEmail()],
             [
                 'name' => $googleUser->getName(),
@@ -31,7 +31,7 @@ class GoogleLoginController extends Controller
             ]
         );
 
-        Auth::login($sysuser, remember: true);
+        Auth::login($user, remember: true);
 
         return redirect('/admin'); // 或 /user，看你登入哪一個 panel
     }
