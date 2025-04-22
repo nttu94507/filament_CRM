@@ -32,7 +32,7 @@ class GoogleLoginController extends Controller
         );
 
         Auth::guard('admin')->login($user, remember: true);
-        session(['login_provider' => 'g']);
+        session(['provider' => 'g','user_id' => $user->id]);
 
         return redirect('/admin'); // 或 /user，看你登入哪一個 panel
     }

@@ -30,10 +30,6 @@ class EnsureUserIsFromGoogle
 
         $user = $guard->user();
 
-        if (session('login_provider') !== 'google') {
-            abort(403, '請使用 Google 登入');
-        }
-
         return $next($request);
     }
 }
