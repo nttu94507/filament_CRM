@@ -24,7 +24,7 @@ class EnsureUserIsFromGoogle
             return redirect()->guest(route('filament.admin.auth.login'));
         }
 
-        if (session('provider') !== 'google') {
+        if (session('provider') !== 'g') {
             abort(403, '請使用 Google 登入才能存取這個頁面。');
         }
 
