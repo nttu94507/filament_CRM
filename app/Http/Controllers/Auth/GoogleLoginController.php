@@ -27,11 +27,13 @@ class GoogleLoginController extends Controller
                 'name' => $googleUser->getName(),
                 'google_id' => $googleUser->getId(),
                 'avatar' => $googleUser->getAvatar(),
+                'session' => session(['login_provider' => 'google']),
                 'password' => Hash::make(Str::random(32)),
             ]
         );
 
-        Auth::login($user, remember: true);
+        Auth::guard('admin')->login($user, remember: true);
+        session(['login_provider' => 'g']);
 
         return redirect('/admin'); // 或 /user，看你登入哪一個 panel
     }

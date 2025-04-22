@@ -42,7 +42,7 @@ return [
         ],
         'admin' => [
             'driver' => 'session',
-            'provider' => 'sysusers',
+            'provider' => 'admins',
         ],
     ],
 
@@ -65,7 +65,7 @@ return [
 
 
     'providers' => [
-        'sysusers' => [
+        'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Sysuser::class,
         ],
