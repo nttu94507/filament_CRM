@@ -27,7 +27,6 @@ class GoogleLoginController extends Controller
                 'name' => $googleUser->getName(),
                 'google_id' => $googleUser->getId(),
                 'avatar' => $googleUser->getAvatar(),
-                'session' => session(['login_provider' => 'google']),
                 'password' => Hash::make(Str::random(32)),
             ]
         );
