@@ -2,16 +2,18 @@
 
 namespace App;
 
-enum BookingType: string
+use Filament\Support\Contracts\HasLabel;
+
+enum BookingType: string implements HasLabel
 {
     case Experience = 'experience';
     case Practice = 'practice';
 
-    public function label(): string
+    public function getLabel(): ?string
     {
         return match($this) {
-            self::Experience => '體驗課',
-            self::Practice => '自行練習',
+            self::Experience => __('reserve.booking_type.experience'),
+            self::Practice => __('reserve.booking_type.practice'),
         };
     }
 }

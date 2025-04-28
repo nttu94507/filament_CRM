@@ -12,26 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bookings', function (Blueprint $table) {
-            $table->id();
+                $table->id();
 
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('type', ['experience', 'practice']);
-            $table->string('location');
-            $table->date('date');
-            $table->string('time'); // 例：09:00、13:00
-            $table->integer('duration'); // 單位：分鐘（ex: 90、180）
+                $table->string('name')->comment('預約人姓名');
+                $table->enum('booking_type', ['experience', 'practice'])->comment('預約類型');
+                $table->time('time')->comment('預約時間');
+                $table->integer('people_count')->default(1)->comment('預約人數');
+                $table->text('note')->comment('備註');
+                $table->string('phone')->nullable()->comment('預約電話');
+                $table->integer('verify_code')->comment('預約碼');
+                $table->softDeletes();
 
-            $table->enum('status', ['booked', 'cancelled', 'attended'])->default('booked');
-
-            $table->foreignId('coach_id')->nullable()->constrained('coaches')->nullOnDelete();
-
-            $table->text('notes')->nullable();
-            $table->boolean('used_ticket')->default(false); // 自行練習才會用到
-
-            $table->boolean('is_manual')->default(false);   // 是否為後台建立
-            $table->string('source')->default('user');      // user / admin / import
-
-            $table->timestamps();
+                $table->timestamps();
         });
     }
 

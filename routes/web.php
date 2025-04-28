@@ -10,3 +10,5 @@ Route::get('/admin/login', \App\Filament\Pages\Login::class)->name('filament.adm
 Route::get('/admin/auth/redirect/google', [App\Http\Controllers\Auth\GoogleLoginController::class, 'redirect'])->name('login.google');
 Route::get('/admin/auth/callback/google', [App\Http\Controllers\Auth\GoogleLoginController::class, 'callback']);
 
+//Route::get('/admin/bookings',[App\Filament\Resources\BookingResource::class,'index'])->name('filament.admin.bookings.index');
+
