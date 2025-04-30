@@ -14,8 +14,13 @@ return [
         'cancel' => '取消',
         'note' => '備註'
     ],
+    'list' => [
+        'booking' => '預約查詢'
+    ],
     'booking'=>[
         'sidebar' => '預約管理'
+    ],
+    'manage' => [
+        'label' => '預約管理'
     ]
-
 ];

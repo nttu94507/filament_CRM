@@ -114,9 +114,14 @@ class BookingResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBookings::route('/'),
-            'create' => Pages\CreateBooking::route('/create'),
+            'index' => Pages\CreateBooking::route('/'),
+            'list' => Pages\ListBookings::route('/list'),
             'edit' => Pages\EditBooking::route('/{record}/edit'),
         ];
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
     }
 }
