@@ -5,6 +5,7 @@ namespace App\Filament\Reserve\Resources\BookingResource\Pages;
 use App\Filament\Reserve\Resources\BookingResource;
 use App\Models\Booking;
 use App\Models\Holiday;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Nette\Schema\ValidationException;
 
@@ -83,7 +84,22 @@ class CreateBooking extends CreateRecord
                 ]);
             }
         }
+
+        //4.預約碼
+//        session()->forget('last_created_booking'); // 確保乾淨
+//        session()->put('last_created_booking', new Booking($data));
         return $data;
+    }
+
+    protected function afterCreate(): void
+    {
+        $booking = $this->record;
+
+        Notification::make()
+            ->success()
+            ->title('預約成功')
+            ->body("您的預約碼為：{$booking->booking_code}，請妥善保管")
+            ->send();
     }
 
 

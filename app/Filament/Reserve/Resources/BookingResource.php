@@ -141,4 +141,13 @@ class BookingResource extends Resource
     {
         return false;
     }
+
+    public static function getCreatedNotificationTitle(): ?string
+    {
+        $booking = session('last_created_booking');
+
+        return $booking
+            ? "預約成功，您的預約碼是：{$booking->booking_code}"
+            : '預約建立成功';
+    }
 }
