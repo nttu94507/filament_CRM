@@ -28,4 +28,10 @@ class CreateBooking extends CreateRecord
 
     }
 
+    public function create(bool $another = false): void
+    {
+        dd(1223);
+//        $this->authorizeAccess();
+    }
+
 }
