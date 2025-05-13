@@ -3,7 +3,10 @@
 namespace App\Filament\Reserve\Resources\BookingResource\Pages;
 
 use App\Filament\Reserve\Resources\BookingResource;
+use App\Models\Booking;
+use App\Models\Holiday;
 use Filament\Resources\Pages\CreateRecord;
+use Nette\Schema\ValidationException;
 
 class CreateBooking extends CreateRecord
 {
@@ -28,10 +31,60 @@ class CreateBooking extends CreateRecord
 
     }
 
-    public function create(bool $another = false): void
+    protected function mutateFormDataBeforeCreate(array $data): array
     {
-        dd(1223);
-//        $this->authorizeAccess();
+        $date = $data['date'];
+        $time = $data['time'];
+        $phone = $data['phone'];
+        $peopleCount = $data['people_count'];
+        $type = $data['booking_type'];
+        $maxPeople = 10;
+
+        $holiday = Holiday::where('date', $data['date'])->first();
+
+        if ($holiday) {
+            $bookingTime = $data['time'];
+
+            if (is_null($holiday->start_time)) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'date' => '此日期場地休息，無法預約。',
+                ]);
+            }
+
+            if ($bookingTime >= $holiday->start_time) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'time' => '場地該日從 ' . substr($holiday->start_time, 0, 5) . ' 起休息，請選擇較早時段。',
+                ]);
+            }
+        }
+
+        // 2. 檢查同手機同時段是否已預約
+        $duplicate = Booking::where('phone', $phone)
+            ->where('date', $date)
+            ->where('time', $time)
+            ->exists();
+
+        if ($duplicate) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'time' => '您已預約該時段，請勿重複預約。',
+            ]);
+        }
+
+        // 3. 檢查人數名額是否已滿
+        if($type == 'experience')
+        {
+            $currentCount = Booking::where('date', $date)
+                ->where('time', $time)
+                ->sum('people_count');
+
+            if (($currentCount + $peopleCount) > $maxPeople) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'people_count' => '此時段名額已滿，請選擇其他時間。',
+                ]);
+            }
+        }
+        return $data;
     }
+
 
 }

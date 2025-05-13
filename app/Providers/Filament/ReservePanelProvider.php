@@ -58,7 +58,7 @@ class ReservePanelProvider extends PanelProvider
                     ->icon('heroicon-o-plus')
                     ->group('預約管理'),
                 NavigationItem::make('預約查詢')
-                    ->url('/bookings/list') // 注意 panel id 要對
+                    ->url('/bookings/check') // 注意 panel id 要對
                     ->icon('heroicon-o-calendar-days')
                     ->group('預約管理'),
 //

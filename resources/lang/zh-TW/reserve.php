@@ -12,7 +12,9 @@ return [
         'create_booking' => '快來秘境玩射箭～',
         'submit' => '送出',
         'cancel' => '取消',
-        'note' => '備註'
+        'note' => '備註',
+        'phone' => '手機',
+        'date' => '預約日期'
     ],
     'list' => [
         'booking' => '預約查詢'

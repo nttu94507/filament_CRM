@@ -11,4 +11,7 @@ Route::get('/admin/auth/redirect/google', [App\Http\Controllers\Auth\GoogleLogin
 Route::get('/admin/auth/callback/google', [App\Http\Controllers\Auth\GoogleLoginController::class, 'callback']);
 
 //Route::get('/admin/bookings',[App\Filament\Resources\BookingResource::class,'index'])->name('filament.admin.bookings.index');
+Route::get('/reserve/lookup', [BookingLookupController::class, 'showForm']);
+Route::post('/reserve/lookup', [BookingLookupController::class, 'lookup']);
+Route::post('/reserve/cancel', [BookingLookupController::class, 'cancel'])->name('booking.cancel');
 
