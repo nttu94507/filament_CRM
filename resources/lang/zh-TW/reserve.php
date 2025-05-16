@@ -24,5 +24,8 @@ return [
     ],
     'manage' => [
         'label' => '預約管理'
-    ]
+    ],
+    'check' => [
+        'check_booking' => '預約查詢'
+]
 ];

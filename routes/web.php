@@ -14,4 +14,6 @@ Route::get('/admin/auth/callback/google', [App\Http\Controllers\Auth\GoogleLogin
 Route::get('/reserve/lookup', [BookingLookupController::class, 'showForm']);
 Route::post('/reserve/lookup', [BookingLookupController::class, 'lookup']);
 Route::post('/reserve/cancel', [BookingLookupController::class, 'cancel'])->name('booking.cancel');
+Route::get('/booking/thank-you', [\App\Http\Controllers\BookingThankYouController::class, 'show'])
+    ->name('booking.thank-you');
 

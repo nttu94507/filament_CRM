@@ -62,4 +62,9 @@ class BookingCheckPage extends Page
 
         session()->flash('success', '預約時間已更新！');
     }
+
+    public function getTitle(): string
+    {
+        return __('reserve.check.check_booking'); // 🚀 用語系檔
+    }
 }
