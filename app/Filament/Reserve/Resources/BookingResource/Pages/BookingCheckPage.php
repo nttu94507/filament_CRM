@@ -65,6 +65,6 @@ class BookingCheckPage extends Page
 
     public function getTitle(): string
     {
-        return __('reserve.check.check_booking'); // 🚀 用語系檔
+        return __('reserve.title.check_booking'); // 🚀 用語系檔
     }
 }

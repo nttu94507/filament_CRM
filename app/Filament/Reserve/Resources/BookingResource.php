@@ -42,9 +42,11 @@ class BookingResource extends Resource
                 ->tel(),
 
             Forms\Components\DatePicker::make('date')
+                ->native(false)
                 ->label(__('reserve.form.date'))
                 ->required()
-                ->minDate(now()) // 不限制預約區間的話可以移除
+                ->minDate(now())
+                ->displayFormat('Y/m/d')// 不限制預約區間的話可以移除
 
                 ->reactive()
                 ->afterStateUpdated(fn (callable $set) => $set('time', null)),
@@ -60,6 +62,8 @@ class BookingResource extends Resource
 
             Forms\Components\Select::make('time')
                 ->label(__('reserve.form.time'))
+                ->native(false)
+                ->searchable()
                 ->options(function (callable $get) {
                     $bookingType = $get('booking_type');
 
@@ -92,9 +96,15 @@ class BookingResource extends Resource
                 ->minValue(1)
                 ->maxValue(10)
                 ->required(),
+            Forms\Components\TextInput::make('booking_code')
+                ->label(__('reserve.form.booking_code'))
+                ->readOnly()
+                ->extraAttributes(['class'=>'text-blue-600 font-semibold']),
 
             Forms\Components\Textarea::make('note')
-                ->label(__('reserve.form.note')),
+                ->label(__('reserve.form.note'))
+
+
         ]);
     }
 
@@ -131,9 +141,8 @@ class BookingResource extends Resource
     {
         return [
             'index' => Pages\CreateBooking::route('/'),
-            'list' => Pages\ListBookings::route('/list'),
-            'edit' => Pages\EditBooking::route('/{record}/edit'),
             'check' => Pages\BookingCheckPage::route('/check'),
+            'view' => Pages\ViewBooking::route('/{record}/view')
         ];
     }
 
@@ -149,5 +158,10 @@ class BookingResource extends Resource
         return $booking
             ? "預約成功，您的預約碼是：{$booking->booking_code}"
             : '預約建立成功';
+    }
+
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return false;
     }
 }

@@ -4,16 +4,17 @@ namespace App\Filament\Reserve\Resources\BookingResource\Pages;
 
 use App\Filament\Reserve\Resources\BookingResource;
 use Filament\Actions;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ViewRecord;
 
-class EditBooking extends EditRecord
+class ViewBooking extends ViewRecord
 {
     protected static string $resource = BookingResource::class;
 
-    protected function getHeaderActions(): array
+
+    public function getTitle(): string
     {
-        return [
-            Actions\DeleteAction::make(),
-        ];
+        return __('reserve.title.View_booking'); // 🚀 用語系檔
     }
 }

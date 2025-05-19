@@ -14,7 +14,7 @@ class CreateBooking extends CreateRecord
     protected static string $resource = BookingResource::class;
     public function getTitle(): string
     {
-        return __('reserve.form.create_booking'); // 🚀 用語系檔
+        return __('reserve.title.create_booking'); // 🚀 用語系檔
     }
 
     protected function getFormActions(): array
@@ -98,8 +98,14 @@ class CreateBooking extends CreateRecord
         Notification::make()
             ->success()
             ->title('預約成功')
-            ->body("您的預約碼為：{$booking->booking_code}，請妥善保管")
+            ->body("建議截圖預約資訊並請妥善保管")
             ->send();
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        // 成功建立後跳轉到 view 頁面（假設你有定義 ViewBooking 頁面）
+        return BookingResource::getUrl('view', ['record' => $this->record]);
     }
 
 
